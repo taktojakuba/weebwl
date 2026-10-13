@@ -16,8 +16,8 @@ PKGS      = wayland-server xkbcommon libinput $(XLIBS)
 DWLCFLAGS = `$(PKG_CONFIG) --cflags $(PKGS)` $(WLR_INCS) $(DWLCPPFLAGS) $(DWLDEVCFLAGS) $(CFLAGS)
 LDLIBS    = `$(PKG_CONFIG) --libs $(PKGS)` $(WLR_LIBS) -lm $(LIBS)
 
-all: dwl
-dwl: dwl.o util.o colors.o dwl-ipc-unstable-v2-protocol.o
+all: weebwl
+weebwl: dwl.o util.o colors.o dwl-ipc-unstable-v2-protocol.o
 	$(CC) dwl.o util.o colors.o dwl-ipc-unstable-v2-protocol.o $(DWLCFLAGS) $(LDFLAGS) $(LDLIBS) -o $@
 dwl.o: dwl.c client.h config.h config.mk colors.h cursor-shape-v1-protocol.h \
 	pointer-constraints-unstable-v1-protocol.h wlr-layer-shell-unstable-v1-protocol.h \
@@ -58,30 +58,30 @@ dwl-ipc-unstable-v2-protocol.c:
 config.h:
 	cp config.def.h $@
 clean:
-	rm -f dwl *.o *-protocol.h
+	rm -f weebwl *.o *-protocol.h
 
 dist: clean
-	mkdir -p dwl-$(VERSION)
+	mkdir -p weebwl-$(VERSION)
 	cp -R LICENSE* Makefile CHANGELOG.md README.md client.h config.def.h \
 		config.mk protocols dwl.1 dwl.c util.c util.h colors.c colors.h dwl.desktop \
-		dwl-$(VERSION)
-	tar -caf dwl-$(VERSION).tar.gz dwl-$(VERSION)
-	rm -rf dwl-$(VERSION)
+		weebwl-$(VERSION)
+	tar -caf weebwl-$(VERSION).tar.gz weebwl-$(VERSION)
+	rm -rf weebwl-$(VERSION)
 
-install: dwl
+install: weebwl
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	rm -f $(DESTDIR)$(PREFIX)/bin/dwl
-	cp -f dwl $(DESTDIR)$(PREFIX)/bin
-	chmod 755 $(DESTDIR)$(PREFIX)/bin/dwl
+	rm -f $(DESTDIR)$(PREFIX)/bin/weebwl
+	cp -f weebwl $(DESTDIR)$(PREFIX)/bin
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/weebwl
 	mkdir -p $(DESTDIR)$(MANDIR)/man1
-	cp -f dwl.1 $(DESTDIR)$(MANDIR)/man1
-	chmod 644 $(DESTDIR)$(MANDIR)/man1/dwl.1
+	cp -f dwl.1 $(DESTDIR)$(MANDIR)/man1/weebwl.1
+	chmod 644 $(DESTDIR)$(MANDIR)/man1/weebwl.1
 	mkdir -p $(DESTDIR)$(DATADIR)/wayland-sessions
-	cp -f dwl.desktop $(DESTDIR)$(DATADIR)/wayland-sessions/dwl.desktop
-	chmod 644 $(DESTDIR)$(DATADIR)/wayland-sessions/dwl.desktop
+	cp -f dwl.desktop $(DESTDIR)$(DATADIR)/wayland-sessions/weebwl.desktop
+	chmod 644 $(DESTDIR)$(DATADIR)/wayland-sessions/weebwl.desktop
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/dwl $(DESTDIR)$(MANDIR)/man1/dwl.1 \
-		$(DESTDIR)$(DATADIR)/wayland-sessions/dwl.desktop
+	rm -f $(DESTDIR)$(PREFIX)/bin/weebwl $(DESTDIR)$(MANDIR)/man1/weebwl.1 \
+		$(DESTDIR)$(DATADIR)/wayland-sessions/weebwl.desktop
 
 .SUFFIXES: .c .o
 .c.o:

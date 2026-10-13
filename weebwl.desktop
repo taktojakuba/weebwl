@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=weebwl
+DesktopNames=weebwl;wlroots
+Comment=weebwl fork of dwl
+Exec=weebwl
+Type=Application

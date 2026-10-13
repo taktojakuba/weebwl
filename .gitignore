@@ -1,4 +1,4 @@
-dwl
+weebwl
 *.o
 *-protocol.c
 *-protocol.h
@@ -7,3 +7,4 @@ config.h
 .direnv/
 result
 result-*
+flake.lock
