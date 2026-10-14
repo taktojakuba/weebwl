@@ -34,4 +34,5 @@ XLIBS = xcb xcb-icccm
 CC = cc
 
 # optimization level (default from make is -O1)
-CFLAGS = -Os -march=native -flto
+CFLAGS  = -O2 -march=native -flto=auto -fno-plt
+LDFLAGS = -Wl,-O1 -Wl,--as-needed
