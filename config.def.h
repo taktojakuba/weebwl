@@ -164,7 +164,7 @@ static const Key keys[] = {
 
     /* app binds */
     {MODKEY, XKB_KEY_s, spawn, SHCMD("footclient tmux")},
-    {MODKEY, XKB_KEY_v, spawn, SHCMD("footclient nvim")},
+    {MODKEY, XKB_KEY_v, spawn, SHCMD("jm menu editor")},
     {MODKEY, XKB_KEY_e, spawn, SHCMD("footclient yazi")},
     {MODKEY, XKB_KEY_b, spawn, SHCMD("firefox")},
     {MODKEY, XKB_KEY_t, spawn, SHCMD("footclient")},
