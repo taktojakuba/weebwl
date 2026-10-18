@@ -63,7 +63,7 @@ clean:
 dist: clean
 	mkdir -p weebwl-$(VERSION)
 	cp -R LICENSE* Makefile CHANGELOG.md README.md client.h config.def.h \
-		config.mk protocols dwl.1 dwl.c util.c util.h colors.c colors.h dwl.desktop \
+		config.mk protocols dwl.1 dwl.c util.c util.h colors.c colors.h weebwl.desktop \
 		weebwl-$(VERSION)
 	tar -caf weebwl-$(VERSION).tar.gz weebwl-$(VERSION)
 	rm -rf weebwl-$(VERSION)
@@ -77,7 +77,7 @@ install: weebwl
 	cp -f dwl.1 $(DESTDIR)$(MANDIR)/man1/weebwl.1
 	chmod 644 $(DESTDIR)$(MANDIR)/man1/weebwl.1
 	mkdir -p $(DESTDIR)$(DATADIR)/wayland-sessions
-	cp -f dwl.desktop $(DESTDIR)$(DATADIR)/wayland-sessions/weebwl.desktop
+	cp -f weebwl.desktop $(DESTDIR)$(DATADIR)/wayland-sessions/weebwl.desktop
 	chmod 644 $(DESTDIR)$(DATADIR)/wayland-sessions/weebwl.desktop
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/weebwl $(DESTDIR)$(MANDIR)/man1/weebwl.1 \
