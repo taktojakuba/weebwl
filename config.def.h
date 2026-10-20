@@ -37,13 +37,13 @@ static const Rule rules[] = {
 /* layouts */
 static const Layout layouts[] = {
     /* symbol     arrange function */
+    {"><>", NULL},
     {"[F]", fair},
     {"[]=", tile},
-    {"><>", NULL},
     {"[M]", monocle},
 };
 
-static const int layout = 0;
+static const int layout = 1;
 
 /* monitors */
 static const MonitorRule monrules[] = {

@@ -2353,11 +2353,12 @@ motionnotify(uint32_t time, struct wlr_input_device *device, double dx, double d
 	} else if (cursor_mode == CurResize) {
 		int cdx = (int)round(cursor->x) - grabcx;
 		int cdy = (int)round(cursor->y) - grabcy;
+		struct wlr_box box;
 
 		cdx = !(rzcorner & 1) && grabc->geom.width - 2 * (int)grabc->bw - cdx < 1 ? 0 : cdx;
 		cdy = !(rzcorner & 2) && grabc->geom.height - 2 * (int)grabc->bw - cdy < 1 ? 0 : cdy;
 
-		const struct wlr_box box = {
+		box = (struct wlr_box){
 			.x      = grabc->geom.x      + (rzcorner & 1 ? 0   :  cdx),
 			.y      = grabc->geom.y      + (rzcorner & 2 ? 0   :  cdy),
 			.width  = grabc->geom.width  + (rzcorner & 1 ? cdx : -cdx),
@@ -3685,8 +3686,31 @@ xwaylandready(struct wl_listener *listener, void *data)
 }
 #endif
 
-int
-main(int argc, char *argv[])
+static void
+setenvs(void)
+{
+	char bus_path[64];
+
+	snprintf(bus_path, sizeof(bus_path), "unix:path=/run/user/%u/bus",
+			(unsigned int)getuid());
+	setenv("XCURSOR_THEME", "Future-dark Cursors", 1);
+	setenv("XCURSOR_SIZE", "24", 1);
+	setenv("XDG_CURRENT_DESKTOP", "weebwl", 1);
+	setenv("XDG_SESSION_TYPE", "wayland", 1);
+	setenv("DBUS_SESSION_BUS_ADDRESS", bus_path, 1);
+	setenv("WLR_RENDERER", "gles2", 1);
+}
+
+static char startup[] =
+	"justbar >/dev/null & "
+	"mako >/dev/null & "
+	"wbg >/dev/null & "
+	"foot --server >/dev/null & "
+	"wlr-randr --output HDMI-A-1 --mode 1920x1080@119.878998Hz >/dev/null & "
+	"wl-clip-persist --clipboard regular --reconnect-tries 0 >/dev/null & "
+	"wl-paste --type text --watch cliphist store >/dev/null &";
+
+int main(int argc, char *argv[])
 {
 	char *startup_cmd = NULL;
 	int c;
@@ -3707,8 +3731,9 @@ main(int argc, char *argv[])
 	/* Wayland requires XDG_RUNTIME_DIR for creating its communications socket */
 	if (!getenv("XDG_RUNTIME_DIR"))
 		die("XDG_RUNTIME_DIR must be set");
+	setenvs();
 	setup();
-	run(startup_cmd);
+	run(startup);
 	cleanup();
 	return EXIT_SUCCESS;
 
